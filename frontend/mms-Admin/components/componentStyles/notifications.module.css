@@ -4,7 +4,7 @@
 }
 
 .general_div {
-  width: 60%;
+  width: 60%; 
 }
 
 .discussion_div p,
@@ -14,6 +14,7 @@
   font-size: 20px;
   color: #333;
 }
+
 
 .noti_span {
   float: right;
@@ -29,12 +30,12 @@
 .inapp_span {
   font-weight: 600;
   font-size: 18px;
-  color: #333;
+  color: #333; 
 }
 
 .item_dis,
 .item {
-  margin-top: 4rem;
+  margin-top: 4rem; 
   margin-bottom: 2rem;
 }
 
@@ -46,7 +47,7 @@
 .item3,
 .item2,
 .item1 {
-  margin-bottom: 2rem;
+  margin-bottom: 2rem; 
 }
 
 .item_span1 {
@@ -56,7 +57,7 @@
 
 .item_dis_span1 {
   margin-right: 2.5rem;
-  margin-left: 7.6rem;
+  margin-left: 7.6rem; 
 }
 
 .item1_span1 {
@@ -81,14 +82,14 @@
 
 .item3_span1 {
   margin-right: 2.5rem;
-  margin-left: 9.8rem;
+  margin-left: 9.8rem;  
 }
 
 .item_dis3_span1 {
   margin-right: 2.5rem;
   margin-left: 14.5rem;
 }
-
+  
 .item4_span1 {
   margin-right: 2.5rem;
   margin-left: 15.4rem;
