@@ -62,7 +62,7 @@
   justify-content: center;
   width: 90%;
   border-radius: 10;
-  border-color: #023C40;
+  border-color: #023c40;
 }
 
 .forgot_password_text {
@@ -94,5 +94,4 @@
   color: #023c40;
   display: flex;
   align-items: center;
-  
 }

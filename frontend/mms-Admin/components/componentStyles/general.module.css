@@ -6,7 +6,6 @@
   width: 155px;
   margin-bottom: 0;
   font-weight: 600;
-  letter-spacing: 0em;
 }
 
 .small_button {
@@ -60,6 +59,7 @@
   flex-direction: row;
   align-items: center;
 }
+
 .input_div {
   width: 48%;
 }
@@ -73,7 +73,7 @@
 .single_input {
   font-size: 16px;
   line-height: 27px;
-  color: #999999;
+  color: #999;
   font-weight: 400;
   height: 50px;
   flex: 1;
@@ -113,8 +113,8 @@
   align-items: center;
   border: solid 1px #e6e6e6;
   border-radius: 5px;
-  /* width:276px; */
 }
+
 .social_icons {
   border-right-style: solid;
   border-right-width: 1px;
@@ -123,9 +123,9 @@
   align-items: center;
   display: flex;
   width: 200px;
-  border-color: #e6e6e6;
   padding-top: 4px;
 }
+
 .input_border {
   border: none;
   font-size: 16px;
@@ -140,6 +140,7 @@
   letter-spacing: 0em;
   color: #4d4d4d;
 }
+
 .btn_container {
   display: flex;
   width: 98%;

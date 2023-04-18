@@ -3,7 +3,7 @@
   height: 295px;
   display: flex;
   color: black;
-  background-color: #F7FEFF;
+  background-color: #f7feff;
   justify-content: flex-start;
   flex-direction: column;
 }
@@ -22,10 +22,9 @@
   cursor: pointer;
   font-size: 16px;
   color: #333;
- 
   height: 43px;
   width: 227px;
-  border-radius: 0px;
+  border-radius: 0;
   padding: 8px 100px 10px 100px;
 }
 
@@ -39,8 +38,4 @@
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
-}
-
-.item_div {
-  /* margin-top: 15px; */
 }
