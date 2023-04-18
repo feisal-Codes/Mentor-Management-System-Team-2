@@ -1,4 +1,4 @@
-import { Input, Button } from "antd";
+import { Input, Button, Row } from "antd";
 import styles from "./form.module.css";
 import clsx from "clsx";
 
@@ -6,9 +6,29 @@ export function CustomTextArea({ ...inputConfig }) {
   return <Input.TextArea className={styles.textarea} {...inputConfig} />;
 }
 
-export function CustomInput({ size, className, ...inputConfig }) {
+export function CustomInput({ size, direction, label, ...inputConfig }) {
   const classN = clsx(styles.input, { [styles.small]: size == "small" });
+  const layout = clsx(styles.layout, {
+    [styles.horizontal]: direction == "horizontal",
+  });
 
+  if (label) {
+    return inputConfig.eyeIcon ? (
+      <div className={layout}>
+        <div className={styles.label}>
+          <label>{label}</label>
+        </div>
+        <Input.Password className={classN} {...inputConfig} />
+      </div>
+    ) : (
+      <div className={layout}>
+        <div className={styles.label}>
+          <label>{label}</label>
+        </div>
+        <Input className={classN} {...inputConfig} />
+      </div>
+    );
+  }
   return inputConfig.eyeIcon ? (
     <Input.Password className={classN} {...inputConfig} />
   ) : (

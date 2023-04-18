@@ -31,6 +31,7 @@ function General() {
           </div>
         </div>
       </Row>
+     
       <Row className={styles.container}>
         <div className={styles.label}>
           <label>Full Name</label>

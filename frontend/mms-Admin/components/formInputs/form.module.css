@@ -45,3 +45,16 @@
   font-weight: 600;
   line-height: 27px;
 }
+
+.layout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.horizontal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+}
