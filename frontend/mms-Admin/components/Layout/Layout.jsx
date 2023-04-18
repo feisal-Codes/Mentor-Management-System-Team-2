@@ -5,10 +5,7 @@ import SideBar from "./SideBar/SideBar";
 import NavHeader from "../NavHeader/NavHeader";
 import { Layout, Input } from "antd";
 import { extractTitleFromUrl } from "utils/extractTitleFromUrl"
-import styles from "../componentStyles/login.module.css";
 import Pagination from "../Pagination"
-
-import { extractTitleFromUrl } from "utils/extractTitleFromUrl";
 
 import styles from "styles/layout.module.css";
 
