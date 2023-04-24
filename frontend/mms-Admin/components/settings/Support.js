@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Row, Space } from "antd";
 import { CustomButton, CustomInput, CustomTextArea, Label } from "../formInputs/CustomInput";
 import {Icon} from "components/Icon/Icon";
-import styles from "../componentStyles/support.module.scss"
+import styles from "../componentStyles/support.module.css"
 
 function Support() {
   return (
