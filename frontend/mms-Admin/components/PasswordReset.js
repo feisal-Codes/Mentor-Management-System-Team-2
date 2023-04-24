@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Button, Input } from "antd";
 import styles from "./componentStyles/passwordreset.module.css";
 import SuccessMessage from "./SuccessMessage";
@@ -7,8 +7,7 @@ function NewPassword() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleClick = (e) => {
     e.preventDefault();
-    setIsModalOpen(true)   
-    
+    setIsModalOpen(true);
   };
   return (
     <>
@@ -70,7 +69,6 @@ function PasswordComponents({
   showPassword,
   forgetPassword,
 }) {
-  console.log(showPassword);
   return (
     <>
       {showPassword && !forgetPassword && (
