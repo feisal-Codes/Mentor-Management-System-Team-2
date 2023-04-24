@@ -39,7 +39,6 @@ export const CustomFormModal = ({
 
   const handleChange = (e) => {
     e.preventDefault();
-    console.log(e.target);
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
