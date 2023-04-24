@@ -60,7 +60,7 @@
 }
 
 .textarea:focus {
-  outline: none !important;
+  outline: none;
 }
 
 .smiley {

@@ -31,8 +31,8 @@ export const PostCard = ({ data }) => {
         <div className={styles.row_mt}>
           <p className={styles.data_title}>{data.title.toUpperCase()}</p>
         </div>
-        <Row className={styles.data_post}>
-          <div>
+        <Row >
+          <div className={styles.data_post}>
             <p>{data.post}</p>
           </div>
         </Row>
