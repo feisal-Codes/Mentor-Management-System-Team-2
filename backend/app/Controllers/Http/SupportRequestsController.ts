@@ -14,7 +14,6 @@ export default class SupportRequestsController {
 
   async createRequest({ auth, request, response }: HttpContextContract) {
     try {
-      console.log(request.body)
       const userId = auth.user?.id
       const { email, title, body } = request.only(['email', 'title', 'body'])
       const supportRequest = new SupportRequest()
