@@ -11,18 +11,13 @@ import {
 //login
 export async function postLogin({ email, password }) {
   
-  
-  
-  try {
+   try {
     const response = await axios.post(login_url, {
       email: email,
       password: password,
     });
     return response;
-  }
-  
-  
-  catch (err) {
+  } catch (err) {
     if (typeof err.response.data.message !== "undefined") {
       let errObj = {
         status: err.response.status,
@@ -135,8 +130,7 @@ export async function supportRequest(token, supportData) {
       {
         ...supportData,
       },
-      {
-        headers: {
+      { headers: {
           Authorization: "Bearer " + token,
         },
       },

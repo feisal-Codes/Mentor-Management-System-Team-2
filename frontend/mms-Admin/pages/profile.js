@@ -25,7 +25,10 @@ function About() {
   }, []);
 
   const fetch = async () => {
-    try{
+
+
+    try {
+
       const response = await getProfile(token);
       if (response.status === 200) {
         setData(response.data);
@@ -41,7 +44,8 @@ function About() {
         setError(error);
         setLoading(false);
       }
-    } catch (e) {
+    } 
+    catch (e) {
       setError(error);
     }
   };
