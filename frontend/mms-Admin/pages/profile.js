@@ -16,7 +16,7 @@ function About() {
   const [error, setError] = useState(false);
   let token = "";
 
-  const router = useRouter()
+  const router = useRouter();
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("token"))) {
       token = JSON.parse(localStorage.getItem("token"));
@@ -25,18 +25,18 @@ function About() {
   }, []);
 
   const fetch = async () => {
-    try {
+    try{
       const response = await getProfile(token);
-      if (response.status == 200) {
+      if (response.status === 200) {
         setData(response.data);
 
         setLoading(false);
       }
 
       if (
-        response.status == 401 ||
-        response.status == 400 ||
-        response.status == 404
+        response.status === 401 ||
+        response.status === 400 ||
+        response.status === 404
       ) {
         setError(error);
         setLoading(false);
@@ -56,7 +56,7 @@ function About() {
 
   const handleEdit = (e) => {
     e.preventDefault();
-    router.push("/settings")
+    router.push("/settings");
   };
 
   return (

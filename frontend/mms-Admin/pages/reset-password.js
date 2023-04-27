@@ -38,11 +38,11 @@ function NewPassword() {
           password: newPassword,
           token: token,
         });
-        if (response.status == 200) {
+        if (response.status === 200) {
           setIsModalOpen(true);
         }
 
-        if (response.status === 401 || response.status == 400) {
+        if (response.status === 401 || response.status === 400) {
           setMessage(response.message);
         }
       } catch (e) {}

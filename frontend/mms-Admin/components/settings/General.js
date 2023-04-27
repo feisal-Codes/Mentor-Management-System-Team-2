@@ -39,7 +39,7 @@ function General() {
     if (valid && token) {
       try {
         const response = await setProfile(profileData, sMedia, token);
-        if (response.status == 200) {
+        if (response.status === 200) {
           setSuccess(true);
         }
 

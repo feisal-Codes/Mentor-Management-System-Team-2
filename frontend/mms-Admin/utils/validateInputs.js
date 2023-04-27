@@ -2,9 +2,6 @@ export function validateInputs(loginData) {
   //email validate
   let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-
-
-
   if (loginData.email && !loginData.email.match(mailformat)) {
     errors.email = "Invalid Email";
     setErrors(() => (errors.email = "Invalid Email"));
@@ -16,9 +13,6 @@ export function validateInputs(loginData) {
 
     return false;
   }
-
-
-  
 
   return true;
 }
