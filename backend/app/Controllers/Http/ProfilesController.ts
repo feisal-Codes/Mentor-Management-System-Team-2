@@ -21,6 +21,7 @@ export default class ProfilesController {
 
   async update({ auth, request, response }: HttpContextContract) {
     try {
+      console.log(request)
       if(auth.user?.id){
         const userId = auth.user?.id
       const profile = await User.findOrFail(userId)

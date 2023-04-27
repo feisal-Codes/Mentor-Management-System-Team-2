@@ -10,13 +10,13 @@ export default class SupportRequestsController {
     } catch (error) {
       response.badRequest({ message: `no request found`, status: 'Error' })
     }
-  }
+  }  
 
   async createRequest({ auth, request, response }: HttpContextContract) {
     try {
+      console.log(request.body)
       const userId = auth.user?.id
       const { email, title, body } = request.only(['email', 'title', 'body'])
-
       const supportRequest = new SupportRequest()
       supportRequest.fill({ userId, email, title, body })
 
