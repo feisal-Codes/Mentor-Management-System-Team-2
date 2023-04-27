@@ -30,7 +30,6 @@ function General() {
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("token"))) {
       setToken(JSON.parse(localStorage.getItem("token")));
-
     }
   }, []);
 
@@ -45,15 +44,13 @@ function General() {
         }
 
         if (
-          response.status == 401 ||
-          response.status == 400 ||
-          response.status == 404
+          response.status === 401 ||
+          response.status === 400 ||
+          response.status === 404
         ) {
           throw response;
         }
-      } catch (e) {
-        
-      }
+      } catch (e) {}
     }
   };
 
@@ -74,7 +71,7 @@ function General() {
   };
 
   return (
-    <div >
+    <div>
       <Row>
         <div className={styles.sub_container}>
           <Avatar

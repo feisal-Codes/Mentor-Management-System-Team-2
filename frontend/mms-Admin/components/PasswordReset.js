@@ -21,16 +21,15 @@ function ForgetPassword({ setForgetPassword, forgetPassword }) {
     if (valid) {
       try {
         const response = await passwordForgot({ email });
-        if (response.status == 200) {
+        if (response.status === 200) {
           setForgetPassword(!forgetPassword);
           router.push("/reset-password");
         }
 
-        if (response.status === 401 || response.status == 400) {
+        if (response.status === 401 || response.status === 400) {
           throw response;
         }
-      } catch (e) {
-      }
+      } catch (e) {}
     }
   };
 

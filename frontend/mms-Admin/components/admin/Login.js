@@ -46,7 +46,7 @@ const Login = ({ showPassword, setShowPassword }) => {
       try {
         const response = await postLogin(loginData);
 
-        if (response.status == 200) {
+        if (response.status === 200) {
           localStorage.setItem(
             "token",
             JSON.stringify(response.data.token.token),
@@ -56,7 +56,7 @@ const Login = ({ showPassword, setShowPassword }) => {
           router.push("/dashboard");
         }
 
-        if (response.status === "401" || response.status == 400) {
+        if (response.status === 401 || response.status === 400) {
           setMessage(response.message);
         }
       } catch (e) {}

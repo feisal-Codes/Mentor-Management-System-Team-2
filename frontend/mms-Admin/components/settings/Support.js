@@ -43,16 +43,14 @@ function Support() {
       try {
         const response = await supportRequest(token, supportData);
 
-        if (response.status == 200 || response.status == 201) {
+        if (response.status === 200 || response.status === 201) {
           setIsSuccess(true);
         }
 
-        if (response.status === 401 || response.status == 400) {
-          throw response
+        if (response.status === 401 || response.status === 400) {
+          throw response;
         }
-      } catch (e) {
-        
-      }
+      } catch (e) {}
     }
   };
 
@@ -65,6 +63,7 @@ function Support() {
           value={supportData.name}
           name="name"
           placeholder="Name"
+          required
         />
         <CustomInput
           type="email"
@@ -72,12 +71,14 @@ function Support() {
           value={supportData.email}
           name="email"
           placeholder="Email"
+          required
         />
         <CustomInput
           onChange={handleOnchange}
           value={supportData.title}
           name="title"
           placeholder="Title"
+          required
         />
         <CustomTextArea
           onChange={handleOnchange}
@@ -85,6 +86,7 @@ function Support() {
           name="body"
           rows={6}
           placeholder="body"
+          required
         />
         <Row className={styles.space_container}>
           <Icon name="Pin" />
