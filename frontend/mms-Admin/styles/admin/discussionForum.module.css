@@ -60,7 +60,7 @@
 }
 
 .textarea:focus {
-  outline: none;
+  box-shadow: none;
 }
 
 .smiley {
@@ -73,4 +73,14 @@
   border: none;
   align-items: center;
   margin-left: 5px;
+}
+
+.emojis {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.emojis_container {
+  margin-top: 5px;
 }

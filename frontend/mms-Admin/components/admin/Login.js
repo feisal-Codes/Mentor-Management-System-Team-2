@@ -21,7 +21,8 @@ const Login = ({ showPassword, setShowPassword }) => {
   const [message, setMessage] = useState("");
   const [token, setToken] = useState("");
   const router = useRouter();
-  const { data, status } = useSession();
+  // const { data, status } = useSession();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("token"))) {
@@ -44,6 +45,7 @@ const Login = ({ showPassword, setShowPassword }) => {
 
     if (valid) {
       try {
+        setIsLoading(true);
         const response = await postLogin(loginData);
 
         if (response.status === 200) {
@@ -53,6 +55,7 @@ const Login = ({ showPassword, setShowPassword }) => {
           );
           localStorage.setItem("userid", JSON.stringify(response.data.user.id));
           setToken(response.data);
+          setIsLoading(false);
           router.push("/dashboard");
         }
 
@@ -96,7 +99,10 @@ const Login = ({ showPassword, setShowPassword }) => {
           onChange={handleOnchange}
         />
         <div className={styles.login_button_container}>
-          <Button onClick={handleSubmit} className={styles.login_button}>
+          <Button
+            loading={isLoading}
+            onClick={handleSubmit}
+            className={styles.login_button}>
             Login
           </Button>
         </div>

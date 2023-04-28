@@ -5,6 +5,7 @@ const reset_password = base_url + "/auth/reset-password";
 const get_profile = base_url + "/profile";
 const set_profile = base_url + "/profile";
 const support_request = base_url + "/support-request";
+const create_post = base_url +"/post"
 
 export {
   login_url,
@@ -13,4 +14,6 @@ export {
   get_profile,
   support_request,
   set_profile,
+  create_post
+  
 };

@@ -5,6 +5,7 @@ import { Icon as Iconn } from "./Icon/Icon";
 import styles from "./componentStyles/customCard.module.css";
 
 export const PostCard = ({ data }) => {
+  console.log(data);
   return (
     <Row className={styles.container_width} sm={24}>
       <Card className={styles.card}>
@@ -29,11 +30,11 @@ export const PostCard = ({ data }) => {
           <Iconn name="Horizon" />
         </Row>
         <div className={styles.row_mt}>
-          <p className={styles.data_title}>{data.title.toUpperCase()}</p>
+          <p className={styles.data_title}>{data[0]?.title?.toUpperCase()}</p>
         </div>
-        <Row >
+        <Row>
           <div className={styles.data_post}>
-            <p>{data.post}</p>
+            <p>{data[0]?.description}</p>
           </div>
         </Row>
         <Row className={styles.icons_container}>

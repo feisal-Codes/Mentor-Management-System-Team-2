@@ -1,4 +1,4 @@
-import { Avatar, Button, Col, Row } from "antd";
+import { Alert, Avatar, Button, Col, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import styles from "../styles/admin/about.module.css";
 import Icon from "../components/Icon.js";
@@ -47,6 +47,9 @@ function About() {
     } 
     catch (e) {
       setError(error);
+      setLoading(false);
+      
+
     }
   };
 
@@ -57,6 +60,13 @@ function About() {
       </div>
     );
   }
+   
+  if(error){
+    <div>
+      something went wrong
+    </div>
+  }
+
 
   const handleEdit = (e) => {
     e.preventDefault();

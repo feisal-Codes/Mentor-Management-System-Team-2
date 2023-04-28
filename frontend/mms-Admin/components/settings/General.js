@@ -252,7 +252,7 @@ function General() {
       {success && (
         <SuccessMessage
           image={"/assets/images/success.png"}
-          message={"Password Reset Successful"}
+          message={"Profile Updated Successfully"}
           width={"220px"}
           height={"165px"}
           isModalOpen={success}

@@ -1,5 +1,5 @@
-import { Button, Modal, Row, Input, message, Upload } from "antd";
-import { useState, useReducer } from "react";
+import { Button, Modal, Row, Col, Input, message, Upload } from "antd";
+import { useState, useEffect } from "react";
 import SuccessMessage from "./SuccessMessage";
 import {
   CustomButton,
@@ -9,6 +9,9 @@ import {
 } from "./formInputs/CustomInput";
 import styles from "../styles/admin/discussionForum.module.css";
 import { Icon } from "./Icon/Icon";
+import InputEmoji from "react-input-emoji";
+import EmojiPicker from "emoji-picker-react";
+import { createPost } from "utils/http";
 
 export const CustomFormModal = ({
   newTopic,
@@ -20,22 +23,18 @@ export const CustomFormModal = ({
   setSuccess,
 }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const props = {
-    name: "file",
-    action: " ",
-    headers: {
-      authorization: "authorization-text",
-    },
-    onChange(info) {
-      if (info.file.status !== "uploading") {
-      }
-      if (info.file.status === "done") {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
+  const [emojis, showEmojis] = useState(false);
+  const [fileList, setFileList] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const [token, setToken] = useState("");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("token"))) {
+      setToken(JSON.parse(localStorage.getItem("token")));
+      setUserId(JSON.parse(localStorage.getItem("userid")));
+    }
+  }, []);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -45,14 +44,53 @@ export const CustomFormModal = ({
     }));
   };
 
-  const handleSubmit = (event) => {
+  const props = {
+    onRemove: (file) => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: (file) => {
+      setFileList([...fileList, file]);
+      return false;
+    },
+    fileList,
+  };
+
+  const handleSubmit = async (event) => {
     //call api here
     event.preventDefault();
-    setConfirmLoading(true);
-    setPosts((posts) => [...posts, formData]);
-    setFormData({});
-    setNewTopic(false);
-    setSuccess(true);
+    try {
+
+    if (!formData.title || !formData.description) {
+      console.log('we are here')
+      setConfirmLoading(false);
+      return;
+    }
+
+      setConfirmLoading(true);
+
+      const response = await createPost(token, fileList, formData);
+
+      console.log(response);
+      console.log("something is wrong");
+      if (response?.status === 201) {
+        setConfirmLoading(true);
+        setPosts((posts) => [...posts, formData]);
+        setFormData({});
+        setNewTopic(false);
+        setSuccess(true);
+      }
+
+      if (response?.status === 401 || response?.status === 400) {
+        setConfirmLoading(false);
+        throw response;
+      }
+    } catch (e) {
+      console.log(e);
+      setConfirmLoading(false);
+    }
   };
   const handleCancel = () => {
     setNewTopic(false);
@@ -65,9 +103,10 @@ export const CustomFormModal = ({
         open={newTopic}
         onOk={handleSubmit}
         width={866}
-      
         footer={
-          <CustomButton onClick={handleSubmit}>Post to forum</CustomButton>
+          <CustomButton loading={confirmLoading} onClick={handleSubmit}>
+            Post to forum
+          </CustomButton>
         }
         confirmLoading={confirmLoading}
         closable={false}>
@@ -90,23 +129,39 @@ export const CustomFormModal = ({
             <CustomTextArea
               rows={6}
               placeholder="start typing ..."
-              name="post"
-              value={formData.post}
+              name="description"
+              value={formData.description}
               onChange={handleChange}
               className={styles.textarea}
             />
-            <Row>
-              <Input
-                className={styles.smiley}
-                prefix={<Icon name="SmileyFace" />}
-                value={newTopic ? formData.post : ""}
-                onChange={handleChange}
-              />
-              <Upload {...props}>
-                <Button
-                  className={styles.border}
-                  icon={<Icon name="Pin" color="#058B94" />}></Button>
-              </Upload>
+            <Row className={styles.emojis}>
+              <Row>
+                <Col
+                  onClick={() => {
+                    showEmojis(!emojis);
+                  }}
+                  className={styles.smiley}>
+                  <Icon name="SmileyFace" />
+                </Col>
+
+                <Upload {...props} className={styles.smiley}>
+                  <Icon name="Pin" color="#058B94" />
+                </Upload>
+              </Row>
+            </Row>
+            <Row className={styles.emojis_container}>
+              {emojis && (
+                <EmojiPicker
+                  onEmojiClick={(emoji, e) => {
+                    setFormData((prevState) => ({
+                      ...prevState,
+                      description: prevState.description + emoji.emoji,
+                    }));
+                  }}
+                  skinTonesDisabled={true}
+                  width={"100%"}
+                />
+              )}
             </Row>
           </Row>
         </Row>

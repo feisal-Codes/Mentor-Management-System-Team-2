@@ -22,6 +22,8 @@ export const styles = `
   .ant-layout{
     background-color: #fff;
   }
+ 
+
   @media (max-width: 992px) {
     .ant-layout-sider {
       position: absolute !important;
