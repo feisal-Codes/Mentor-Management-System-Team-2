@@ -43,8 +43,9 @@ Route.group(() => {
     Route.get('/', 'ProfilesController.getByUserId')
     Route.put('/', 'ProfilesController.update')
     Route.put('/delete/:userId', 'ProfilesController.delete')
-  })  
-    .prefix('profile') 
+    Route.get('/search', 'ProfilesController.search')
+  })
+    .prefix('profile')
     .middleware('auth')
 
   Route.group(() => {
@@ -103,7 +104,7 @@ Route.group(() => {
 
   Route.group(() => {
     Route.get('/sent', 'BroadcastMessagesController.sent')
-    Route.get('/received', 'BroadcastMessagesController.received')
+    Route.get('/', 'BroadcastMessagesController.index')
     Route.post('/', 'BroadcastMessagesController.create')
   })
     .prefix('broadcast')
