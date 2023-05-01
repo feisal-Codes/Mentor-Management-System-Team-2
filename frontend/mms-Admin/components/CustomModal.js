@@ -62,12 +62,11 @@ export const CustomFormModal = ({
     //call api here
     event.preventDefault();
     try {
-
-    if (!formData.title || !formData.description) {
-      console.log('we are here')
-      setConfirmLoading(false);
-      return;
-    }
+      if (!formData.title || !formData.description) {
+        console.log("we are here");
+        setConfirmLoading(false);
+        return;
+      }
 
       setConfirmLoading(true);
 
@@ -83,7 +82,11 @@ export const CustomFormModal = ({
         setSuccess(true);
       }
 
-      if (response?.status === 401 || response?.status === 400) {
+      if (
+        response?.status === 401 ||
+        response?.status === 400 ||
+        response?.status === 403
+      ) {
         setConfirmLoading(false);
         throw response;
       }

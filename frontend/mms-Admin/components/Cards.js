@@ -3,11 +3,24 @@ import cardStyle from "../styles/admin/about.module.css";
 import Icon from "./Icon";
 import { Icon as Iconn } from "./Icon/Icon";
 import styles from "./componentStyles/customCard.module.css";
+import { useRouter } from "next/router";
 
-export const PostCard = ({ data }) => {
+export const PostCard = ({ data, fullPost }) => {
   console.log(data);
+  const router = useRouter();
+  const handleClick = (e, id) => {
+    e.preventDefault();
+    console.log(id);
+    router.push("/discussion-forum/" + id);
+  };
+
   return (
-    <Row className={styles.container_width} sm={24}>
+    <Row
+      className={styles.container_width}
+      sm={24}
+      onClick={(e) => {
+        handleClick(e, data?.id);
+      }}>
       <Card className={styles.card}>
         <Row span={24} className={styles.row_justify}>
           <div className={cardStyle.about_header}>
@@ -22,20 +35,30 @@ export const PostCard = ({ data }) => {
               }
             />
             <div style={{ marginLeft: "18px" }} className={styles.profile}>
-              <p className={styles.title}>Alison Davis</p>
-              <p className={styles.role}>Mentor Manager</p>
+              <p className={styles.title}>{data?.user?.first_name}</p>
+              <p className={styles.role}>{data?.user?.role || "Role"}</p>
             </div>
           </div>
 
           <Iconn name="Horizon" />
         </Row>
         <div className={styles.row_mt}>
-          <p className={styles.data_title}>{data[0]?.title?.toUpperCase()}</p>
+          <p className={styles.data_title}>{data?.title?.toUpperCase()}</p>
         </div>
         <Row>
-          <div className={styles.data_post}>
-            <p>{data[0]?.description}</p>
-          </div>
+          {fullPost ? (
+            <div className={styles.data_post}>
+              <p>{data?.description}</p>
+            </div>
+          ) : (
+            <div className={styles.data_post}>
+              <p>
+                {data?.description.slice(0, 500)}
+
+                {data?.description?.length > 500 ? "  ....." : ""}
+              </p>
+            </div>
+          )}
         </Row>
         <Row className={styles.icons_container}>
           <Col className={styles.icons} sm={3}>

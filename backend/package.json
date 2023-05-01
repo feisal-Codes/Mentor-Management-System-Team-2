@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node ace serve --watch",
     "build": "node ace build --production",
-    "start": "node server.js",
+    "start": "pm2 start server.js",
     "test": "node ace test",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write .",
@@ -17,7 +17,7 @@
     "model": "node ace make:model",
     "prepare": "cd ../../ && husky install",
     "precommit": "npm run prepare && npm run lint && npm run build",
-    "deploy": "npm run build && cd build && npm run start"
+    "deploy": "ls && npm install && npm run build && cd build &&  ls && npm run start"
   },
   "eslintConfig": {
     "extends": [
@@ -71,11 +71,14 @@
     "@adonisjs/lucid": "^18.3.0",
     "@adonisjs/mail": "^8.1.2",
     "@adonisjs/repl": "^3.1.11",
+    "@adonisjs/websocket": "^1.0.12",
+    "adonis-websocket": "^1.0.4",
     "adonis5-swagger": "^1.4.1",
     "luxon": "^3.3.0",
     "nanoid": "^3.3.6",
     "pdfkit": "^0.13.0",
     "pg": "^8.10.0",
+    "pm2": "^5.3.0",
     "proxy-addr": "^2.0.7",
     "reflect-metadata": "^0.1.13",
     "socket.io": "^4.6.1",

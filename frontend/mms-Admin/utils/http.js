@@ -166,12 +166,10 @@ export async function createPost(token, fileList, postData) {
     fileList.forEach((file) => {
       console.log("files");
       console.log(file);
-      formData.append("files[]", file);
+      formData.append("image_url[]", file);
     });
     formData.append("data", JSON.stringify(postData));
-    console.log("****************************");
-    console.log("****************************");
-    console.log("****************************");
+    
 
     console.log(formData);
 
@@ -185,7 +183,7 @@ export async function createPost(token, fileList, postData) {
     const response = await axios.post(
       create_post,
       {
-        ...postData,
+        ...formData
       },
       {
         headers: {

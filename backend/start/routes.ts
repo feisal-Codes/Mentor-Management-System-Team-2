@@ -31,7 +31,7 @@ Route.group(() => {
     Route.post('/reset-password', 'AuthenticationController.resetPassword')
     Route.get('/google/redirect', 'AuthenticationController.redirectToGoogle')
     Route.post('/google', 'AuthenticationController.googleLogin')
-  }).prefix('auth') 
+  }).prefix('auth')
 
   Route.group(() => {
     Route.get('/', 'UserController.getAllUsers')
@@ -43,8 +43,9 @@ Route.group(() => {
     Route.get('/', 'ProfilesController.getByUserId')
     Route.put('/', 'ProfilesController.update')
     Route.put('/delete/:userId', 'ProfilesController.delete')
-  })  
-    .prefix('profile') 
+    Route.get('/search', 'ProfilesController.search')
+  })
+    .prefix('profile')
     .middleware('auth')
 
   Route.group(() => {
@@ -80,6 +81,7 @@ Route.group(() => {
     Route.delete('/:postId/:commentId', 'CommentController.deleteComment')
   }).prefix('comment')
 
+
   Route.group(() => {
     Route.get('/', 'NotificationSettingsController.getUserNotificationSettings')
     Route.put('/', 'NotificationSettingsController.updateUserNotificationSettings')
@@ -103,7 +105,7 @@ Route.group(() => {
 
   Route.group(() => {
     Route.get('/sent', 'BroadcastMessagesController.sent')
-    Route.get('/received', 'BroadcastMessagesController.received')
+    Route.get('/', 'BroadcastMessagesController.index')
     Route.post('/', 'BroadcastMessagesController.create')
   })
     .prefix('broadcast')
@@ -125,4 +127,8 @@ Route.group(() => {
   })
     .prefix('archive')
     .middleware('auth')
+
+  Route.resource('faq', 'FaqController').middleware({
+    store: ['auth'],
+  })
 }).prefix('api/v1')

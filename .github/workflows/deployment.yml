@@ -49,8 +49,8 @@ jobs:
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{steps.result.outputs.result}}
-          REMOTE_HOST: ec2-13-52-212-109.us-west-1.compute.amazonaws.com
-          REMOTE_USER: ec2-user
-          TARGET: /home/ec2-user/dev
+          REMOTE_HOST: ec2-107-22-108-69.compute-1.amazonaws.com
+          REMOTE_USER: ubuntu
+          TARGET: /home/ubuntu/dev
           SOURCE: /backend
-          SCRIPT_AFTER: cd dev/backend && npm run deploy
+          SCRIPT_AFTER: cd dev/backend && ls && chmod +x ./deploy.sh && chmod +x ./start.sh && sudo ./deploy.sh && sudo ./start.sh

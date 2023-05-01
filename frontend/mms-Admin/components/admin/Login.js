@@ -59,8 +59,12 @@ const Login = ({ showPassword, setShowPassword }) => {
           router.push("/dashboard");
         }
 
-        if (response.status === 401 || response.status === 400) {
+        if (
+          response.status === 401 ||
+          response.status === 400 
+        ) {
           setMessage(response.message);
+          setIsLoading(false);
         }
       } catch (e) {}
     }
@@ -77,6 +81,7 @@ const Login = ({ showPassword, setShowPassword }) => {
         <div>
           <p className={styles.welcome_header}>Welcome!</p>
           <p className={styles.login_text}>Login to continue</p>
+          <p className={styles.error}>{message}</p>
         </div>
         <Input
           className={[styles.login_input, styles.login_input_margin]}
@@ -95,8 +100,6 @@ const Login = ({ showPassword, setShowPassword }) => {
           name="password"
           placeholder="Password"
           required
-          value={loginData.password}
-          onChange={handleOnchange}
         />
         <div className={styles.login_button_container}>
           <Button
@@ -123,7 +126,7 @@ const Login = ({ showPassword, setShowPassword }) => {
               height={"38px"}
             />
 
-            <div className={styles.signin_text}>signin with Google</div>
+            <p className={styles.signin_text}>signin with Google</p>
           </Button>
         </div>
 
