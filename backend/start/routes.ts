@@ -29,6 +29,7 @@ Route.group(() => {
     Route.post('/login', 'AuthenticationController.login')
     Route.post('/forget-password', 'AuthenticationController.forgetPassword')
     Route.post('/reset-password', 'AuthenticationController.resetPassword')
+    Route.post('/change-password', 'AuthenticationController.changePassword')
     Route.get('/google/redirect', 'AuthenticationController.redirectToGoogle')
     Route.post('/google', 'AuthenticationController.googleLogin')
   }).prefix('auth')
@@ -80,7 +81,6 @@ Route.group(() => {
     Route.put('/:postId/:commentId', 'CommentController.updateComment')
     Route.delete('/:postId/:commentId', 'CommentController.deleteComment')
   }).prefix('comment')
-
 
   Route.group(() => {
     Route.get('/', 'NotificationSettingsController.getUserNotificationSettings')
