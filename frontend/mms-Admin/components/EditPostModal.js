@@ -79,12 +79,7 @@ export const EditPostModal = ({
         setMessage(response.message);
       }
 
-      if (
-        response?.status === 401 ||
-        response?.status === 400 ||
-        response?.status === 403
-      ) 
-      {
+      if ( response?.status === 401 || response?.status === 400 || response?.status === 403) {
         setConfirmLoading(false);
         setMessage(response?.message);
         throw response;
