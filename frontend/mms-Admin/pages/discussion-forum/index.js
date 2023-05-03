@@ -6,32 +6,22 @@ import { CustomFormModal } from "components/CustomModal";
 import SuccessMessage from "components/SuccessMessage";
 import { PostCard } from "components/Cards";
 import styles from "styles/admin/discussionForum.module.css";
-import usePostFetch from "utils/usePostFetch";
-import { get_posts } from "utils/urls";
-import useSWR, { useSWRInfinite } from "swr";
-import axios from "axios";
+import usePostFetch from "../../hooks/usePostFetch";
+import { useStateValue } from "store/context";
+import { Loader } from "components/Loader";
 
 function DiscussionForum() {
   const [newTopic, setNewTopic] = useState(false);
   const [formData, setFormData] = useState({});
   const [posts, setPosts] = useState([]);
   const [success, setSuccess] = useState(false);
-  const [token, setToken] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
+  const { data, error, loading, hasMore } = usePostFetch(pageNumber,success);
+  const { state, dispatch } = useStateValue();
 
-  const { data, error, loading, hasMore } = usePostFetch(
-    get_posts,
-    pageNumber,
-    token,
-  );
+  const observer = useRef(); 
 
-  const observer = useRef();
 
-  useEffect(() => {
-    if (JSON.parse(localStorage.getItem("token"))) {
-      setToken(JSON.parse(localStorage.getItem("token")));
-    }
-  }, []);
   const lastPostElementRef = useCallback(
     (node) => {
       if (loading) return;
@@ -52,7 +42,7 @@ function DiscussionForum() {
   };
 
   if (!data) {
-    return <div>Loading..</div>;
+    return <Loader />;
   }
 
   if (error) {
@@ -89,7 +79,7 @@ function DiscussionForum() {
                 );
               }
             })}
-          {hasMore && <p>Loading</p>}
+          {hasMore && <Loader size="large" />}
         </Row>
       </Row>
       {newTopic && (

@@ -1,35 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 
-import { Button, Form, Input } from "antd";
-import axios from "axios";
-import Cookie from "js-cookie";
+import { Form, Input, Button } from "antd";
 
 import Icon from "../Icon";
 import styles from "../componentStyles/login.module.css";
 import { postLogin } from "utils/http";
 import { useRouter } from "next/router";
 import { validateInputs } from "../../utils/validateInputs";
+import { useLogin } from "../../hooks/useLogin";
 
 const Login = ({ showPassword, setShowPassword }) => {
+  const [loading, setLoading] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
+  const { setToken, token } = useLogin();
+
 
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
-  const [token, setToken] = useState("");
   const router = useRouter();
-  // const { data, status } = useSession();
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (JSON.parse(localStorage.getItem("token"))) {
-      setToken(JSON.parse(localStorage.getItem("token")));
-      router.push("/dashboard");
-    }
-  }, []);
+  const { data, status } = useSession();
 
   const handleOnchange = (e) => {
     e.preventDefault();
@@ -41,32 +34,26 @@ const Login = ({ showPassword, setShowPassword }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const valid = validateInputs(loginData);
+    setLoading(true);
 
+    const valid = validateInputs(loginData);
     if (valid) {
       try {
-        setIsLoading(true);
         const response = await postLogin(loginData);
 
         if (response.status === 200) {
-          localStorage.setItem(
-            "token",
-            JSON.stringify(response.data.token.token),
-          );
-          localStorage.setItem("userid", JSON.stringify(response.data.user.id));
-          setToken(response.data);
-          setIsLoading(false);
-          router.push("/dashboard");
+          setToken(response.data.token.token);
+          console.log("here we are");
+          router.back()
         }
 
-        if (
-          response.status === 401 ||
-          response.status === 400 
-        ) {
+        if (response.status === 401 || response.status === 400) {
           setMessage(response.message);
-          setIsLoading(false);
         }
-      } catch (e) {}
+        setLoading(false);
+      } catch (e) {
+        setMessage(response.message);
+      }
     }
   };
 
@@ -100,12 +87,14 @@ const Login = ({ showPassword, setShowPassword }) => {
           name="password"
           placeholder="Password"
           required
+          value={loginData.password}
+          onChange={handleOnchange}
         />
         <div className={styles.login_button_container}>
           <Button
-            loading={isLoading}
             onClick={handleSubmit}
-            className={styles.login_button}>
+            className={styles.login_button}
+            loading={loading}>
             Login
           </Button>
         </div>
@@ -126,11 +115,9 @@ const Login = ({ showPassword, setShowPassword }) => {
               height={"38px"}
             />
 
-            <p className={styles.signin_text}>signin with Google</p>
+            <div className={styles.signin_text}>Sign in with Google</div>
           </Button>
         </div>
-
-        <p className={styles.signup}>New User? Signup</p>
       </Form>
     </div>
   );

@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from "react";
 import Icon from "../Icon";
 import styles from "../componentStyles/general.module.css";
-import { Avatar, Button, Col, Input, Row, Select } from "antd";
+import { Avatar, Col, Input, Row, Select, Button } from "antd";
 import {
-  CustomButton,
   CustomInput,
   CustomTextArea,
 } from "components/formInputs/CustomInput";
 import { validateInputs } from "../../utils/validateInputs";
-import { setProfile } from "../../utils/http";
 import SuccessMessage from "../SuccessMessage";
+import { fetchUserProfile, updateUserProfile } from "pages/api/user";
+
+const initialProfileData = {
+  first_name: "",
+  last_name: "",
+  email: "",
+  bio: "",
+  wesite: "",
+  country: "",
+  city: ""
+};
 
 function General() {
-  const [profileData, setProfileData] = useState({
-    first_name: "",
-    last_name: "",
-    bio: "",
-  });
+  const [loading, setLoading] = useState(false);
+  const [profileData, setProfileData] = useState(initialProfileData);
 
   const [sMedia, setSmedia] = useState({
     instagram: "",
@@ -24,21 +30,36 @@ function General() {
     twitter: "",
     linkedin: "",
   });
-  const [token, setToken] = useState("");
   const [success, setSuccess] = useState(false);
 
-  useEffect(() => {
-    if (JSON.parse(localStorage.getItem("token"))) {
-      setToken(JSON.parse(localStorage.getItem("token")));
-    }
+
+  useEffect(()=>{
+    (async()=>{
+      const profile = await fetchUserProfile();
+      setProfileData(profile?.data || {});
+      setSmedia(profile?.data?.social_media_links);
+    })();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const valid = validateInputs(profileData);
-    if (valid && token) {
+    if (valid) {
       try {
-        const response = await setProfile(profileData, sMedia, token);
+        const {
+          bio,
+          email,
+          first_name,
+          last_name,
+          website,
+          country,
+          city
+        } = profileData;
+        const response = await updateUserProfile({
+          bio, email, first_name, last_name, website, country, city, social_media_links: sMedia
+        });
+        console.log(response)
         if (response.status === 200) {
           setSuccess(true);
         }
@@ -51,6 +72,7 @@ function General() {
           throw response;
         }
       } catch (e) {}
+      setLoading(false);
     }
   };
 
@@ -143,12 +165,40 @@ function General() {
           size={"large"}
           placeholder="Select Country"
           className={styles.select}
+          options={[
+            {
+              label: 'Nigeria',
+              value: 'Nigeria'
+            },
+            {
+              label: 'Ghana',
+              value: 'Ghana'
+            },
+            {
+              label: 'United State of America',
+              value: 'USA'
+            },
+          ]}
         />
         <label className={styles.select_label}>City</label>
         <Select
           size={"large"}
           placeholder="Select City"
           className={styles.select}
+          options={[
+            {
+              label: 'Lagos',
+              value: 'Lagos'
+            },
+            {
+              label: 'Abuja',
+              value: 'Abuja'
+            },
+            {
+              label: 'Accra',
+              value: 'Accra'
+            },
+          ]}
         />
       </div>
 
@@ -170,10 +220,9 @@ function General() {
             </div>
             <Input
               name="github"
-              value={sMedia.github}
+              value={sMedia?.github}
               onChange={handleSocials}
               className={styles.input_border}
-              placeholder="@githubuser"
             />
           </div>
         </Col>
@@ -191,10 +240,9 @@ function General() {
             </div>
             <Input
               name="instagram"
-              value={sMedia.instagram}
+              value={sMedia?.instagram}
               onChange={handleSocials}
               className={styles.input_border}
-              placeholder="@instagramuser"
             />
           </div>
         </Col>
@@ -215,10 +263,9 @@ function General() {
             </div>
             <Input
               name="linkedin"
-              value={sMedia.linkedin}
+              value={sMedia?.linkedin}
               onChange={handleSocials}
               className={styles.input_border}
-              placeholder="@linkedInuser"
             />
           </div>
         </Col>
@@ -236,25 +283,25 @@ function General() {
             </div>
             <Input
               name="twitter"
-              value={sMedia.twitter}
+              value={sMedia?.twitter}
               onChange={handleSocials}
               className={styles.input_border}
-              placeholder="@twitteruser"
             />
           </div>
         </Col>
       </div>
       <div className={styles.btn_container}>
-        <CustomButton onClick={handleSubmit}>
+        <Button
+          className={styles.btn}
+          loading={loading}
+          onClick={handleSubmit}>
           <span className={styles.btn_text}>Save Changes</span>
-        </CustomButton>
+        </Button>
       </div>
       {success && (
         <SuccessMessage
           image={"/assets/images/success.png"}
-          message={"Profile Updated Successfully"}
-          width={"220px"}
-          height={"165px"}
+          message={"Profile Information Updated Successfully"}
           isModalOpen={success}
           setIsModalOpen={setSuccess}
         />

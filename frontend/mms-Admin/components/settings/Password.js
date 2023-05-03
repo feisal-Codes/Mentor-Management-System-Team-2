@@ -1,9 +1,10 @@
-import React from "react";
-import { CustomButton, CustomInput, Label } from "../formInputs/CustomInput.js";
+import { useState } from "react";
+import {  CustomInput, Label } from "../formInputs/CustomInput.js";
 import styles from "../componentStyles/password.module.css";
-import { Col, Row } from "antd";
+import { Col, Row, Button } from "antd";
 
 function Password() {
+  const [loading, setLoading] = useState(false);
   return (
     <div className={styles.container}>
       <Row className={styles.sub_container}>
@@ -46,9 +47,9 @@ function Password() {
 
       <Row className={styles.btn_container}>
         <Col sm={22} className={styles.btn_sub}>
-          <CustomButton className={styles.button}>
+          <Button className={styles.button} loading={loading}>
             Save New Password
-          </CustomButton>
+          </Button>
         </Col>
       </Row>
 

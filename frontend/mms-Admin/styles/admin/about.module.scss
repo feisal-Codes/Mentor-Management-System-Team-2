@@ -1,4 +1,6 @@
 .button {
+  border: 0;
+  cursor: pointer;
   width: 156px;
   height: 47px;
   background: #058b94;
@@ -48,6 +50,24 @@
 .profile {
   margin-left: 20px;
   padding-top: 10px;
+}
+
+.meta {
+  div {
+    display: flex;
+    align-items: center;
+    gap: 2em;
+    margin-bottom: 1em;
+  }
+
+  h4 {
+    display: inline-block;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+  }
 }
 
 .flag {
@@ -133,14 +153,23 @@
 .social_icon_container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
   padding: 5px 11px;
-  width: 204px;
   height: 40px;
   background-color: #e6fdfe;
   border-radius: 5px;
-  margin-bottom: 30px;
+  margin-bottom: 1em;
+}
+
+.spin {
+  width: 100px;
+  height: 100px;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 
 .spin {

@@ -5,40 +5,32 @@ import {
   CustomButton,
   CustomInput,
   CustomTextArea,
-  Label,
 } from "./formInputs/CustomInput";
 import styles from "../styles/admin/discussionForum.module.css";
 import { Icon } from "./Icon/Icon";
-import InputEmoji from "react-input-emoji";
 import EmojiPicker from "emoji-picker-react";
-import { createPost } from "utils/http";
+import { createPost } from "pages/api/forum";
 
 export const CustomFormModal = ({
   newTopic,
   setNewTopic,
-  formData,
-  setFormData,
   posts,
   setPosts,
   setSuccess,
 }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [emojis, showEmojis] = useState(false);
-  const [fileList, setFileList] = useState([]);
+  const [file, setFile] = useState();
   const [uploading, setUploading] = useState(false);
-  const [token, setToken] = useState("");
-  const [userId, setUserId] = useState("");
-
-  useEffect(() => {
-    if (JSON.parse(localStorage.getItem("token"))) {
-      setToken(JSON.parse(localStorage.getItem("token")));
-      setUserId(JSON.parse(localStorage.getItem("userid")));
-    }
-  }, []);
+  const [postData, setPostData] = useState({
+    title: "",
+    description: "",
+    emoji: "happy face",
+  });
 
   const handleChange = (e) => {
     e.preventDefault();
-    setFormData((prevState) => ({
+    setPostData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
@@ -46,23 +38,25 @@ export const CustomFormModal = ({
 
   const props = {
     onRemove: (file) => {
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
-      setFileList(newFileList);
+      // const index = fileList.indexOf(file);
+      // const newFileList = fileList.slice();
+      // newFileList.splice(index, 1);
+      setFile("");
     },
     beforeUpload: (file) => {
-      setFileList([...fileList, file]);
+      setFile(file);
       return false;
     },
-    fileList,
+    file,
   };
 
   const handleSubmit = async (event) => {
     //call api here
     event.preventDefault();
+    console.log("form data");
+    console.log(postData);
     try {
-      if (!formData.title || !formData.description) {
+      if (!postData.title || !postData.description) {
         console.log("we are here");
         setConfirmLoading(false);
         return;
@@ -70,14 +64,17 @@ export const CustomFormModal = ({
 
       setConfirmLoading(true);
 
-      const response = await createPost(token, fileList, formData);
+      const formData = new FormData();
+      formData.append("imageUrl", file);
+      formData.append("title", postData.title);
+      formData.append("description", postData.description);
+      formData.append("emoji", JSON.stringify(postData.emoji));
 
-      console.log(response);
-      console.log("something is wrong");
+      const response = await createPost(formData);
+
       if (response?.status === 201) {
         setConfirmLoading(true);
-        setPosts((posts) => [...posts, formData]);
-        setFormData({});
+        setPostData({});
         setNewTopic(false);
         setSuccess(true);
       }
@@ -91,7 +88,6 @@ export const CustomFormModal = ({
         throw response;
       }
     } catch (e) {
-      console.log(e);
       setConfirmLoading(false);
     }
   };
@@ -125,7 +121,7 @@ export const CustomFormModal = ({
             placeholder="Enter a title"
             className={styles.mb_title}
             name="title"
-            value={formData.title}
+            value={postData.title}
             onChange={handleChange}
           />
           <Row className={styles.body_row}>
@@ -133,7 +129,7 @@ export const CustomFormModal = ({
               rows={6}
               placeholder="start typing ..."
               name="description"
-              value={formData.description}
+              value={postData.description}
               onChange={handleChange}
               className={styles.textarea}
             />
@@ -156,7 +152,7 @@ export const CustomFormModal = ({
               {emojis && (
                 <EmojiPicker
                   onEmojiClick={(emoji, e) => {
-                    setFormData((prevState) => ({
+                    setPostData((prevState) => ({
                       ...prevState,
                       description: prevState.description + emoji.emoji,
                     }));

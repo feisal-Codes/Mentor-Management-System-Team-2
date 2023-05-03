@@ -1,35 +1,29 @@
-import { Alert, Avatar, Button, Col, Row } from "antd";
+import moment from "moment";
+import { Avatar, Col, Row, Typography } from "antd";
 import React, { useEffect, useState } from "react";
-import styles from "../styles/admin/about.module.css";
+import styles from "../styles/admin/about.module.scss";
 import Icon from "../components/Icon.js";
-import { NG } from "country-flag-icons/react/3x2";
 import IconWithText from "components/Icon/IconWithText";
-import { Icon as Iconn } from "components/Icon/Icon";
-import { getProfile } from "utils/http";
+import { fetchUserProfile } from "pages/api/user";
 import { capitalize } from "utils/capitalize";
-import { Spin } from "antd";
+import { Loader } from "components/Loader";
+import { Button } from "components/Button";
 import { useRouter } from "next/router";
 
 function About() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  let token = "";
+  const { Paragraph } = Typography;
 
   const router = useRouter();
   useEffect(() => {
-    if (JSON.parse(localStorage.getItem("token"))) {
-      token = JSON.parse(localStorage.getItem("token"));
-    }
     fetch();
   }, []);
 
   const fetch = async () => {
-
-
     try {
-
-      const response = await getProfile(token);
+      const response = await fetchUserProfile();
       if (response.status === 200) {
         setData(response.data);
 
@@ -47,26 +41,16 @@ function About() {
     } 
     catch (e) {
       setError(error);
-      setLoading(false);
-      
-
     }
   };
 
   if (loading) {
     return (
       <div className={styles.spin}>
-        <Spin tip="Loading" size="large" />
+        <Loader size="large" />
       </div>
     );
   }
-   
-  if(error){
-    <div>
-      something went wrong
-    </div>
-  }
-
 
   const handleEdit = (e) => {
     e.preventDefault();
@@ -92,10 +76,10 @@ function About() {
               <p className={styles.about_name}>
                 {capitalize(data.first_name) + " " + capitalize(data.last_name)}
                 <span>
-                  <NG title="Nigeria" className={styles.flag} />
+                  {/* <NG title="Nigeria" className={styles.flag} /> */}
                 </span>
               </p>
-              <p className={styles.about_role}>Admin</p>
+              <p className={styles.about_role}>{data.isAdmin ? "Admin" : ""}</p>
             </div>
           </div>
         </Col>
@@ -115,51 +99,16 @@ function About() {
           </div>
         </Col>
         <Col span={24}>
-          <Row>
-            <Col span={12}>
-              <IconWithText
-                container={styles.icon_container}
-                color={styles.icon_color}
-                styles={styles.icon}
-                text={"peculiah@andela.com"}>
-                <Iconn name="Mail" />
-              </IconWithText>
-            </Col>
-            <Col span={12}>
-              <IconWithText
-                container={styles.icon_container}
-                color={styles.icon_color}
-                styles={styles.icon}
-                text={"Nigeria, Lagos"}>
-                <Iconn name="Location" />
-              </IconWithText>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <IconWithText
-                container={styles.icon_container}
-                color={styles.icon_color}
-                styles={styles.icon}
-                text={"www.peculiah.com"}>
-                <Iconn name="Globe" />
-              </IconWithText>
-            </Col>
-            <Col span={12}>
-              <IconWithText
-                container={styles.icon_container}
-                color={styles.icon_color}
-                styles={styles.icon}
-                text={"Member since june, 2021"}>
-                <Iconn name="Calendar" />
-              </IconWithText>
-            </Col>
-          </Row>
+          <Paragraph className={styles.meta}>
+            <div><h4>Location:</h4><p>{data?.location || "NIL"}</p></div>
+            <div><h4>Email:</h4><p>{data?.location || "NIL"}</p></div>
+            <div><h4>Website:</h4><p>{data?.meta?.website || "NIL"}</p></div>
+           <div> <h4>Member Since:</h4><p>{moment(data?.created_at).format("ll")}</p></div>
+          </Paragraph>
         </Col>
         <Col span={24}>
           <p className={styles.about_title}>Socials</p>
-
-          <Row>
+          <Row justify={"space-between"} gutter={[16, 16]}>
             <Col span={12}>
               <IconWithText
                 container={styles.social_icon_container}
@@ -193,7 +142,7 @@ function About() {
               </IconWithText>
             </Col>
           </Row>
-          <Row>
+          <Row justify={"space-between"} gutter={[16, 16]}>
             <Col span={12}>
               <IconWithText
                 container={styles.social_icon_container}
