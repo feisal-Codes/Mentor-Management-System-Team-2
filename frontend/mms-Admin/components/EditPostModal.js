@@ -55,7 +55,6 @@ export const EditPostModal = ({
   const handleSubmit = async (event) => {
     //call api here
     event.preventDefault();
-    console.log(postData);
     try {
       if (!postData.title || !postData.description) {
         setConfirmLoading(false);
