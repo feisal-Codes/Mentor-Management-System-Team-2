@@ -15,7 +15,7 @@ const App = ({ Component, pageProps, session }) => {
   const { token } = useLogin();
   const router = useRouter();
 
-  if (!token) {
+  if (!token) {  
     return (
       <>
         <ContextProvider>
