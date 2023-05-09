@@ -12,7 +12,7 @@ function SuccessMessage({
   setIsModalOpen,
   redirectLogin,
   reloadPage,
-  success
+  success,
 }) {
   const router = useRouter();
 

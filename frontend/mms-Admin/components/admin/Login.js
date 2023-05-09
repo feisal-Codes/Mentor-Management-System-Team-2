@@ -42,7 +42,7 @@ const Login = ({ showPassword, setShowPassword }) => {
 
         if (response.status === 200) {
           setToken(response.data.token.token);
-          router.push("/profile");
+          router.push("/");
         }
 
         if (response.status === 401 || response.status === 400) {
