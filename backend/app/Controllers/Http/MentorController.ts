@@ -11,10 +11,15 @@ export default class MentorController {
       response.unauthorized({ message: 'You are not authorized to access this resource.' })
       return
     }
-    const { page, limit } = request.qs()
+    const { page, limit, query } = request.qs()
     const mentors = await User.query()
-      .where('roleId', Roles.MENTOR)
-      .select(['id', 'firstName', 'lastName'])
+      .where((queryBuilder) => {
+        queryBuilder
+          .whereRaw('lower(first_name) like ?', [`%${query?.toLowerCase() || ''}%`])
+          .orWhereRaw('lower(last_name) like ?', [`%${query?.toLowerCase() || ''}%`])
+      })
+      .where('role_id', Roles.MENTOR)
+      .whereNull('deleted_at')
       .paginate(page || 1, limit || 10)
     return { status: 'success', message: 'Fetched all mentors successful', mentors }
   }

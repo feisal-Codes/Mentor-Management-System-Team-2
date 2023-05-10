@@ -5,15 +5,23 @@ import TaskMentorManager from 'App/Models/TaskMentorManager'
 import Roles from 'App/Enums/Roles'
 
 export default class MentorManagerController {
-  async getAllMentorManagers({ auth, response }: HttpContextContract) {
+  async getAllMentorManagers({ auth, response, request }: HttpContextContract) {
     const user = auth.user
     if (!user || !user.isAdmin) {
       response.unauthorized({ message: 'You are not authorized to access this resource.' })
       return
     }
+    const { page, limit, query } = request.qs()
     const mentorManagers = await User.query()
-      .where('roleId', Roles.MENTOR_MANAGER)
-      .select(['id', 'firstName', 'lastName'])
+      .where((queryBuilder) => {
+        queryBuilder
+          .whereRaw('lower(first_name) like ?', [`%${query?.toLowerCase() || ''}%`])
+          .orWhereRaw('lower(last_name) like ?', [`%${query?.toLowerCase() || ''}%`])
+      })
+      .where('role_id', Roles.MENTOR_MANAGER)
+      .whereNull('deleted_at')
+      .paginate(page || 1, limit || 10)
+
     return { status: 'success', message: 'Fetched all mentor mangers successful', mentorManagers }
   }
 

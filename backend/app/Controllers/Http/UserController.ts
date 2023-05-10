@@ -1,11 +1,8 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
-import Roles from 'App/Enums/Roles'
 import { nanoid } from 'nanoid'
 import Env from '@ioc:Adonis/Core/Env'
 import Mail from '@ioc:Adonis/Addons/Mail'
-import { schema } from '@ioc:Adonis/Core/Validator'
-import Document from 'App/Models/Document'
 
 export default class AuthenticationController {
   async getAllUsers({ auth, request, response }: HttpContextContract) {
@@ -31,34 +28,6 @@ export default class AuthenticationController {
     return { status: 'success', message: 'Fetched all user successful', users }
   }
 
-  async getAllMentors({ auth, response }: HttpContextContract) {
-    const user = auth.user
-    if (!user || !user.isAdmin) {
-      response.unauthorized({ message: 'You are not authorized to access this resource.' })
-      return
-    }
-    const mentors = await User.query()
-      .where('roleId', Roles.MENTOR)
-      .whereNull('deleted_at')
-      .whereNull('deleted_at')
-      .select(['id', 'firstName', 'lastName', 'roleId', 'roleId'])
-    return { status: 'success', message: 'Fetched all mentors successful', mentors }
-  }
-
-  async getAllMentorManagers({ auth, response }: HttpContextContract) {
-    const user = auth.user
-    if (!user || !user.isAdmin) {
-      response.unauthorized({ message: 'You are not authorized to access this resource.' })
-      return
-    }
-    const mentorManagers = await User.query()
-      .where('roleId', Roles.MENTOR_MANAGER)
-      .whereNull('deleted_at')
-      .whereNull('deleted_at')
-      .select(['id', 'firstName', 'lastName', 'roleId', 'roleId'])
-    return { status: 'success', message: 'Fetched all mentor mangers successful', mentorManagers }
-  }
-
   async inviteUser({ auth, request, response }: HttpContextContract) {
     const user = auth.user
     if (!user || !user.isAdmin) {
@@ -77,7 +46,7 @@ export default class AuthenticationController {
       const inviteCode = nanoid()
       const user = await User.findBy('email', email)
 
-      if(user) throw new Error("User already exist");
+      if (user) throw new Error('User already exist')
 
       const newUser = new User()
       newUser.fill({ email, firstName, lastName, roleId, inviteCode, password })
