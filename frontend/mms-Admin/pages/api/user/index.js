@@ -18,3 +18,8 @@ export const updateUserProfile = async (payload) => {
   const url = "/profile";
   return await http.put(url, payload);
 };
+
+export const changePassword = async (payload) => {
+  const url = "/auth/change-password/";
+  return await http.post(url, payload);
+};

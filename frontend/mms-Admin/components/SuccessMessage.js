@@ -3,7 +3,8 @@ import Image from "next/image";
 import { Button, Modal } from "antd";
 import styles from "./componentStyles/splashscreen.module.css";
 import { CustomButton } from "./formInputs/CustomInput";
-import { useRouter } from "next/router";
+import Router from "next/router";
+import NoSSRWrapper from "./DisableSSR";
 
 function SuccessMessage({
   image,
@@ -14,27 +15,25 @@ function SuccessMessage({
   reloadPage,
   success,
 }) {
-  const router = useRouter();
-
   const handleOk = () => {
     if (redirectLogin) {
       setIsModalOpen(false);
-      router.push("/login");
+      Router.push("/login");
     } else {
       setIsModalOpen(false);
     }
 
     if (reloadPage) {
-      router.reload();
+      Router.reload();
     }
 
     if (success) {
-      router.reload();
+      Router.reload();
     }
   };
 
   return (
-    <>
+    <NoSSRWrapper>
       <Modal
         className={styles.modal}
         centered
@@ -56,7 +55,7 @@ function SuccessMessage({
           </div>
         </div>
       </Modal>
-    </>
+    </NoSSRWrapper>
   );
 }
 
