@@ -102,7 +102,7 @@ function About() {
         </Col>
         <Col span={24}>
           <Paragraph className={styles.meta}>
-            <div><h4>Location:</h4><p>{data?.location || "NIL"}</p></div>
+            <div><h4>Location:</h4><p>{data?.country || "NIL"}</p></div>
             <div><h4>Email:</h4><p>{data?.email || "NIL"}</p></div>
             <div><h4>Website:</h4><p>{data?.website || "NIL"}</p></div>
            <div> <h4>Member Since:</h4><p>{moment(data?.created_at).format("ll")}</p></div>

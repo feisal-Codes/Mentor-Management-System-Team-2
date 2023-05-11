@@ -6,6 +6,11 @@ import { CustomInput, CustomTextArea } from "components/formInputs/CustomInput";
 import { validateInputs } from "../../utils/validateInputs";
 import SuccessMessage from "../SuccessMessage";
 import { fetchUserProfile, updateUserProfile } from "pages/api/user";
+import {
+  CountryDropdown,
+  RegionDropdown,
+  CountryRegionData,
+} from "react-country-region-selector";
 
 const initialProfileData = {
   first_name: "",
@@ -28,6 +33,8 @@ function General() {
     linkedin: "",
   });
   const [success, setSuccess] = useState(false);
+  const [country, setCountry] = useState("");
+  const [region, setRegion] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -43,16 +50,15 @@ function General() {
     const valid = validateInputs(profileData);
     if (valid) {
       try {
-        const { bio, email, first_name, last_name, website, country, city } =
-          profileData;
+        const { bio, email, first_name, last_name, website } = profileData;
         const response = await updateUserProfile({
           bio,
           email,
           first_name,
           last_name,
           website,
-          country,
-          city,
+          country: country,
+          city: region,
           social_media_links: sMedia,
         });
         console.log(response);
@@ -122,6 +128,7 @@ function General() {
               onChange={handleChange}
               placeholder="First Name"
               name="first_name"
+              // disabled
             />
           </div>
           <div className={styles.input_div}>
@@ -130,6 +137,7 @@ function General() {
               onChange={handleChange}
               placeholder="Second Name"
               name="last_name"
+              // disabled
             />
           </div>
         </div>
@@ -141,7 +149,7 @@ function General() {
         </div>
 
         <CustomTextArea
-          value={profileData.bio} 
+          value={profileData.bio}
           name="bio"
           onChange={handleChange}
           placeholder="Your Bio"
@@ -163,44 +171,23 @@ function General() {
 
       <div className={styles.select_container}>
         <label className={styles.label}>Country</label>
-        <Select
-          size={"large"}
-          placeholder="Select Country"
-          className={styles.select}
-          options={[
-            {
-              label: "Nigeria",
-              value: "Nigeria",
-            },
-            {
-              label: "Ghana",
-              value: "Ghana",
-            },
-            {
-              label: "United State of America",
-              value: "USA",
-            },
-          ]}
+
+        <CountryDropdown
+          value={country}
+          onChange={(val) => setCountry(val)}
+          classes={styles.select}
+          showDefaultOption={true}
+          defaultOptionLabel="Select Country"
         />
+
         <label className={styles.select_label}>City</label>
-        <Select
-          size={"large"}
-          placeholder="Select City"
-          className={styles.select}
-          options={[
-            {
-              label: "Lagos",
-              value: "Lagos",
-            },
-            {
-              label: "Abuja",
-              value: "Abuja",
-            },
-            {
-              label: "Accra",
-              value: "Accra",
-            },
-          ]}
+        <RegionDropdown
+          country={country}
+          value={region}
+          showDefaultOption={true}
+          defaultOptionLabel="Select City"
+          classes={styles.select}
+          onChange={(val) => setRegion(val)}
         />
       </div>
 

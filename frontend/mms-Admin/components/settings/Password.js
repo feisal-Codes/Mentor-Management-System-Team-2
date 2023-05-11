@@ -39,16 +39,23 @@ function Password() {
         newPassword: data.newPassword,
         oldPassword: data.oldPassword,
       });
+      console.log(response)
+
       if (response.status === 200) {
+
         setLoading(false);
+        setData({})
+        
         setIsSuccess(true);
       }
       if (response.status === 400 || response.status === 401) {
+          
         setMessage(response.data.message);
       }
     } catch (e) {
       setLoading(false);
-      setMessage(e.message);
+      console.log(e)
+      setMessage("Invalid Credentials");
     }
   };
 
