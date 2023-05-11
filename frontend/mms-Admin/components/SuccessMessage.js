@@ -14,6 +14,7 @@ function SuccessMessage({
   redirectLogin,
   reloadPage,
   success,
+  logout
 }) {
   const handleOk = () => {
     if (redirectLogin) {
@@ -29,6 +30,12 @@ function SuccessMessage({
 
     if (success) {
       Router.reload();
+    }
+
+    if(logout){
+      localStorage.clear();
+      sessionStorage.clear();
+      Router.reload()
     }
   };
 

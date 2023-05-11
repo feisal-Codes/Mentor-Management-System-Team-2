@@ -12,7 +12,9 @@ import { Loader } from "components/Loader";
 import { Button } from "components/Button";
 import { useRouter } from "next/router";
 
-function About() { 
+// let image_url = process.env.NEXT_PUBLIC_BASE_URL + "uploads/upload_file";
+let image_url = "http://127.0.0.1:3333/uploads/upload_file/";
+function About() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -40,9 +42,11 @@ function About() {
         setError(error);
         setLoading(false);
       }
-    } 
-    catch (e) {
+    } catch (e) {
       setError(error);
+      setLoading(false);
+
+
     }
   };
 
@@ -67,11 +71,18 @@ function About() {
             <Avatar
               size={90}
               icon={
-                <Icon
-                  icon={"/assets/images/admin_avatar.png"}
-                  width={"90px"}
-                  height={"90px"}
+                <img
+                  src={image_url + "clhity6g60005m0ss65ctblxj.png"}
+                  width="90px"
+                  height="90px"
                 />
+                // <Icon
+                //   icon={
+                //     "http://127.0.0.1:3333/uploads/upload_file/clhity6g60005m0ss65ctblxj.png"
+                //   }
+                //   width={"90px"}
+                //   height={"90px"}
+                // />
               }
             />
             <div className={styles.profile}>
@@ -97,15 +108,28 @@ function About() {
             <p className={styles.about_title}>About</p>
             <div className={styles.about_desc_container}>
               <p className={styles.about_desc}>{data.bio}</p>
-            </div> 
+            </div>
           </div>
         </Col>
         <Col span={24}>
           <Paragraph className={styles.meta}>
-            <div><h4>Location:</h4><p>{data?.country || "NIL"}</p></div>
-            <div><h4>Email:</h4><p>{data?.email || "NIL"}</p></div>
-            <div><h4>Website:</h4><p>{data?.website || "NIL"}</p></div>
-           <div> <h4>Member Since:</h4><p>{moment(data?.created_at).format("ll")}</p></div>
+            <div>
+              <h4>Location:</h4>
+              <p>{data?.country || "NIL"}</p>
+            </div>
+            <div>
+              <h4>Email:</h4>
+              <p>{data?.email || "NIL"}</p>
+            </div>
+            <div>
+              <h4>Website:</h4>
+              <p>{data?.website || "NIL"}</p>
+            </div>
+            <div>
+              {" "}
+              <h4>Member Since:</h4>
+              <p>{moment(data?.created_at).format("ll")}</p>
+            </div>
           </Paragraph>
         </Col>
         <Col span={24}>
@@ -179,6 +203,14 @@ function About() {
             </Col>
           </Row>
         </Col>
+        <div>
+          <image
+            src="http://127.0.0.1:3333/uploads/upload_file/clhity6g60005m0ss65ctblxj.png"
+            width="90px"
+            height="90px"
+            alt="image"
+          />
+        </div>
       </Row>
     </>
   );

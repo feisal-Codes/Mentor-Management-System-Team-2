@@ -45,8 +45,8 @@ function Password() {
 
         setLoading(false);
         setData({})
-        
         setIsSuccess(true);
+
       }
       if (response.status === 400 || response.status === 401) {
           
@@ -138,6 +138,7 @@ function Password() {
           message={"Password Successfully Changed"}
           isModalOpen={isSuccess}
           setIsModalOpen={setIsSuccess}
+          logout
         />
       )}
     </div>
