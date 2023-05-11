@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Modal } from "antd";
 import styles from "./componentStyles/splashscreen.module.css";
 import { CustomButton } from "./formInputs/CustomInput";
 import toast from 'react-hot-toast';
-import axios from "../pages/api/axios";
-
+import { deleteTask } from "pages/api/task";
 function DeleteTask({
   image,
   message,
@@ -18,25 +17,26 @@ function DeleteTask({
   const handleClose = () => {
     setIsDeleteOpen(false);
   };
+  const [loading, setLoading] = useState(false);
 
-  const DeleteTask = (taskId) => {
-      
-    const token = 'OA.YWauKgOJ1E1AB7PBhAt5vlGbS4qrTxVPyyBKffhg3Dcqll0OnN2ZyfA8hKxe';
-
-    axios.delete(`task/delete/${taskId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
+  const DeleteTask = async (taskId) => {
+    setLoading(true);
+    try {
+      const response = await deleteTask(taskId);
+      if (response.status === 200) {
+        toast.success(response?.data?.message);
+        setIsDeleteOpen(false);
+        setLoading(false);
+        useEffect(() => {
+        }, [response.status === 200])
       }
-    })
-    .then(response => {
-      console.log('Deleted successfully:', response.data);
-      toast.success(response?.data?.message);
-      setIsDeleteOpen(false);
-    })
-    .catch(error => {
-      console.error('Delete failed:', error);
+    } catch (e) {
+      console.error(e);
       toast.error(error);
-    });
+    } finally {
+      setIsDeleteOpen(false);
+      setLoading(false);
+    }
   };
 
   return (
@@ -55,7 +55,7 @@ function DeleteTask({
           </div>
 
           <div>
-            <Image src={image} width={width} height={height} />;
+            <Image src={image} width={width} height={height} />
           </div>
           <div>
             <CustomButton onClick={handleClose} className={styles.modal_b1}>Undo</CustomButton>

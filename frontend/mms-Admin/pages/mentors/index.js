@@ -1,8 +1,19 @@
-import React from "react";
-import styles from "../../styles/mentors/mentors.module.scss";
+import React from 'react';
+import ListMentor from '../../components/ListMentor';
+import GridMentor from '../../components/GridMentor';
+import { useStateValue } from "store/context";
 
-const Mentors = () => {
-  return <div>Mentors home</div>;
-};
+function mentors() {
+  const [ {gridState} ] = Object.values(useStateValue())
+  return (
+    <div>
+     {gridState.showGrid !== false ? (
+      <GridMentor />
+     ) : (
+      <ListMentor />
+     )}
+    </div>
+  )
+}
 
-export default Mentors;
+export default mentors
