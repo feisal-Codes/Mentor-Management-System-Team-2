@@ -16,10 +16,7 @@ function AboutMentor() {
     isError,
   } = useQuery(["about_user"], () => fetchMentorAbout(router.query.mentorID));
 
-  console.log("************************************8");
-  console.log(about);
-  console.log("************************************8");
-  console.log("************************************8");
+ 
   if (isLoading) return "loading tasks...";
 
   if (isError) return "An error occured";

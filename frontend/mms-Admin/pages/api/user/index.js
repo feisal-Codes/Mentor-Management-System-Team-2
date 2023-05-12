@@ -11,8 +11,6 @@ export const fetchMentorTasks = async (id) => {
 
 export const fetchMentorAbout =  async (id) => {
   const response = await http.get(`/user/${id}/about`);
-  console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-  console.log(response)
   return response.data;
 };
 
