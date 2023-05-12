@@ -54,7 +54,6 @@ function Password() {
       }
     } catch (e) {
       setLoading(false);
-      console.log(e)
       setMessage("Invalid Credentials");
     }
   };
@@ -128,9 +127,7 @@ function Password() {
         </Col>
       </Row>
 
-      <div className={styles.forgot_password_text}>
-        <p>Forgot Password?</p>
-      </div>
+      
 
       {isSuccess && (
         <SuccessMessage

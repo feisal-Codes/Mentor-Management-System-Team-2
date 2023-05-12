@@ -6,7 +6,14 @@ export const fetchMentors = async () => {
 
 export const fetchMentorTasks = async (id) => {
   const response = await http.get(`/mentor/${id}/tasks`);
-  return response.data.data;
+  return response.data.data; 
+};
+
+export const fetchMentorAbout =  async (id) => {
+  const response = await http.get(`/user/${id}/about`);
+  console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+  console.log(response)
+  return response.data;
 };
 
 export const fetchMentorCertificates = async (id) => {

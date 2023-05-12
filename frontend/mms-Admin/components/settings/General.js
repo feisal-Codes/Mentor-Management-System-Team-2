@@ -17,6 +17,7 @@ const initialProfileData = {
   country: "",
   city: "",
 };
+let image_url = process.env.NEXT_PUBLIC_BASE_URL + "/uploads/upload_file/";
 
 function General() {
   const [loading, setLoading] = useState(false);
@@ -71,22 +72,17 @@ function General() {
       const formData = new FormData();
 
       try {
-        const { bio, email, first_name, last_name, website } = profileData;
+        const { bio, website } = profileData;
         if (file) {
-          console.log("here")
-          formData.append("profile_image_path", file);
+          console.log("here");
+          formData.append("profileImagePath", file);
         }
         formData.append("bio", bio);
-        formData.append("email", email);
-        formData.append("first_name", first_name);
-        formData.append("last_name", last_name);
-        formData.append("website", last_name);
+        formData.append("website", website);
         formData.append("social_media_links", JSON.stringify(sMedia));
         formData.append("country", country);
         formData.append("city", region);
-        for (let data of formData.values()) {
-          console.log(data);
-        }
+       
 
         const response = await updateUserProfile(formData);
         console.log(response);
@@ -127,15 +123,19 @@ function General() {
       <Row>
         <div className={styles.sub_container}>
           <Avatar
-            size={73}
+            size={80}
             icon={
-              <Icon
-                icon={imageUrl ? imageUrl : "/assets/images/admin_avatar.png"}
-                width={"73px"}
-                height={"73px"}
+              <img
+                src={
+                  imageUrl
+                    ? imageUrl
+                    : image_url + profileData?.profile_image_path
+                }
+              
               />
             }
           />
+
           <div className={styles.profile_text_container}>
             <p className={styles.set_pic_text}>Set Profile Picture</p>
             <Upload {...props} showUploadList={false}>

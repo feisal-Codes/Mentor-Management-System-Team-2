@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import getUserRole from "../utils/getUserRole.js";
 import Link from "next/link";
 import moment from "moment";
-import { EditPostModal } from "./EditPostModal";
+import { EditPostModal,EditCommentModal } from "./EditPostModal";
 import { useEffect, useState } from "react";
 import SuccessMessage from "./SuccessMessage";
 import NoSSRWrapper from "./DisableSSR";
@@ -125,8 +125,6 @@ export const PostCard = ({ data, fullPost, names }) => {
             newTopic={showEdit}
             setNewTopic={setEdit}
             data={data}
-            // setPosts={setPosts}
-            // posts={posts}
             setSuccess={setSuccess}
           />
         )}
@@ -147,6 +145,7 @@ export const PostCard = ({ data, fullPost, names }) => {
 };
 
 export const CommentCard = ({ data }) => {
+ 
   return (
     <NoSSRWrapper>
       <Row className={styles.container_width} sm={24}>
@@ -156,14 +155,26 @@ export const CommentCard = ({ data }) => {
               {data?.user?.first_name + " " + data?.user?.last_name}
             </p>
 
-            <Iconn name="Horizon" />
+              <Iconn name="Horizon" />
           </Row>
           <Row>
             <div className={styles.data_post}>
               <p>{data?.comment}</p>
             </div>
+            <Col sm={24} className={styles.clock_icon}>
+              <div>
+                <span>
+                  <Iconn name="Clock" />
+                </span>
+                <span className={styles.clock}>
+                  {moment(data.created_at).fromNow(true)}
+                </span>
+              </div>
+            </Col>
           </Row>
         </Card>
+
+       
       </Row>
     </NoSSRWrapper>
   );

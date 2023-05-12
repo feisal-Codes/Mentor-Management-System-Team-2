@@ -12,8 +12,7 @@ import { Loader } from "components/Loader";
 import { Button } from "components/Button";
 import { useRouter } from "next/router";
 
-// let image_url = process.env.NEXT_PUBLIC_BASE_URL + "uploads/upload_file";
-let image_url = "http://127.0.0.1:3333/uploads/upload_file/";
+let image_url = process.env.NEXT_PUBLIC_BASE_URL + "/uploads/upload_file/";
 function About() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,8 +44,6 @@ function About() {
     } catch (e) {
       setError(error);
       setLoading(false);
-
-
     }
   };
 
@@ -68,23 +65,30 @@ function About() {
       <Row className={styles.about}>
         <Col span={18}>
           <div className={styles.about_header}>
-            <Avatar
-              size={90}
-              icon={
-                <img
-                  src={image_url + "clhity6g60005m0ss65ctblxj.png"}
-                  width="90px"
-                  height="90px"
-                />
-                // <Icon
-                //   icon={
-                //     "http://127.0.0.1:3333/uploads/upload_file/clhity6g60005m0ss65ctblxj.png"
-                //   }
-                //   width={"90px"}
-                //   height={"90px"}
-                // />
-              }
-            />
+            {data?.profile_image_path ? (
+              <Avatar
+                size={90}
+                icon={
+                  <img
+                    src={image_url + data.profile_image_path}
+                    width="90px"
+                    height="90px"
+                  />
+                }
+              />
+            ) : (
+              <Avatar
+                size={90}
+                icon={
+                  <Icon
+                    icon={"/assets/images/admin_avatar.png"}
+                    width={"90px"}
+                    height={"90px"}
+                  />
+                }
+              />
+            )}
+
             <div className={styles.profile}>
               <p className={styles.about_name}>
                 {capitalize(data.first_name) + " " + capitalize(data.last_name)}
@@ -126,7 +130,6 @@ function About() {
               <p>{data?.website || "NIL"}</p>
             </div>
             <div>
-              {" "}
               <h4>Member Since:</h4>
               <p>{moment(data?.created_at).format("ll")}</p>
             </div>
