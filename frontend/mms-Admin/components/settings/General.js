@@ -107,7 +107,7 @@ function General() {
         if (
           response.status === 401 ||
           response.status === 400 ||
-          response.status === 404
+          response.status === 404 
         ) {
           throw response;
         }
@@ -141,7 +141,7 @@ function General() {
   }
 
   return (
-    <div>
+    <>
       <Row>
         <div className={styles.sub_container}>
           <Avatar
@@ -366,7 +366,7 @@ function General() {
           setIsModalOpen={setSuccess}
         />
       )}
-    </div>
+    </>
   );
 }
 
