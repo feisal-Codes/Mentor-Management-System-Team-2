@@ -154,11 +154,20 @@ Route.group(() => {
     .middleware('auth')
 
   Route.group(() => {
+    Route.get('/', 'ProgramReportsController.getAllReports')
+    Route.post('/:programId/', 'ProgramReportsController.createProgramReport')
+    Route.get('/:reportId', 'ProgramReportsController.getReport')
+    Route.delete('/delete/:reportId', 'ProgramReportsController.deleteReport')
+  }).prefix('program-reports')
+
+  Route.group(() => {
     Route.get('/', 'ProgramsController.allArchive')
     Route.put('/:id', 'ProgramsController.archive')
   })
     .prefix('archive')
     .middleware('auth')
+
+  Route.get('/dashboard', 'DashboardController.index').middleware('auth')
 
   Route.resource('faq', 'FaqController').middleware({
     store: ['auth'],
