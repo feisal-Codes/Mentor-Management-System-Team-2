@@ -68,7 +68,7 @@ function Support() {
           formData.append("imageUrl", file);
         }
         if (supportData.email) {
-          formData.append("email", supportData?.email);
+          formData.append("email", supportData.email);
         }
         formData.append("body", supportData?.body);
         formData.append("title", supportData?.title);

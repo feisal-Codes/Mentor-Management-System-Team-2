@@ -50,14 +50,15 @@ Route.group(() => {
     Route.get('/:mentorId/tasks', 'MentorController.getMentorTask')
     Route.delete('/delete/:mentorId', 'MentorController.deleteAMentor')
     Route.delete('/:taskId/:mentorId', 'MentorController.removeMentorFromTask')
-  }).prefix('mentor')
+  }).prefix('mentors')
 
   Route.group(() => {
     Route.get('/', 'MentorManagerController.getAllMentorManagers')
     Route.get('/:mentorManagerId/tasks', 'MentorManagerController.getMentorManagerTask')
+    Route.get('/:mentorManagerId/mentors', 'MentorManagerController.getMentorsByManager')
     Route.delete('/delete/:mentorManagerId', 'MentorManagerController.deleteAMentorManager')
     Route.delete('/:taskId/:mentorManagerId', 'MentorManagerController.removeMentorManagerFromTask')
-  }).prefix('mentor-manager')
+  }).prefix('mentor-managers')
 
   Route.group(() => {
     Route.get('/:senderId/:recipientId', 'ChatController.getAllChat')
@@ -80,10 +81,13 @@ Route.group(() => {
     Route.post('/', 'TaskController.create')
     Route.put('/:taskId', 'TaskController.update')
     Route.get('/:taskId', 'TaskController.show')
+    Route.get('/:taskId/mentors', 'TaskController.getMentorsByTask')
+    Route.get('/:taskId/mentor-managers', 'TaskController.getMentorManagersByTask')
+    Route.get('/:taskId/reports', 'TaskController.getReportsByTask')
     Route.get('/search', 'TaskController.searchTask')
     Route.delete('/delete/:taskId', 'TaskController.delete')
   })
-    .prefix('task')
+    .prefix('tasks')
     .middleware('auth')
 
   Route.group(() => {
@@ -107,7 +111,7 @@ Route.group(() => {
     Route.post('/:postId', 'CommentController.createComment')
     Route.put('/:postId/:commentId', 'CommentController.updateComment')
     Route.delete('/:postId/:commentId', 'CommentController.deleteComment')
-  }).prefix('comment')
+  }).prefix('comments')
 
   Route.group(() => {
     Route.get('/', 'NotificationSettingsController.getUserNotificationSettings')
@@ -143,6 +147,7 @@ Route.group(() => {
     Route.get('/:id', 'ProgramsController.show')
     Route.get('/:id/mentors', 'ProgramsController.programMentor')
     Route.get('/:id/mentor-managers', 'ProgramsController.programMentorManager')
+    Route.get('/:id/reports', 'ProgramsController.getReportsByProgram')
     Route.post('/', 'ProgramsController.store')
     Route.put('/:id', 'ProgramsController.update')
     Route.delete('/:id', 'ProgramsController.destroy')
@@ -157,6 +162,7 @@ Route.group(() => {
     Route.get('/', 'ProgramReportsController.getAllReports')
     Route.post('/:programId/', 'ProgramReportsController.createProgramReport')
     Route.get('/:reportId', 'ProgramReportsController.getReport')
+    Route.get('/:reportId/pdf', 'ProgramReportsController.downloadReportPDF')
     Route.delete('/delete/:reportId', 'ProgramReportsController.deleteReport')
   }).prefix('program-reports')
 

@@ -125,7 +125,7 @@ export async function supportRequest(token, supportData) {
     const response = await axios.post(
       support_request,
       {
-        ...supportData,
+        supportData,
       },
       {
         headers: {

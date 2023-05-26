@@ -182,6 +182,7 @@ export default class TaskReportController {
 
   async downloadReportPDF({ auth, params, response }: HttpContextContract) {
     const trx = await Database.transaction()
+    const event = { name: Task }
     try {
       const user = auth.user
       if (!user || !user.isAdmin) {
@@ -201,7 +202,7 @@ export default class TaskReportController {
       const mentor = await User.findOrFail(report.mentorId)
 
       await trx.commit()
-      return generatePdfFile(response, report, task, mentor)
+      return generatePdfFile(response, report, task.title, mentor, event)
     } catch (error) {
       await trx.rollback()
       response.badRequest({ message: 'Error getting request', status: 'Error' })
@@ -228,9 +229,10 @@ export default class TaskReportController {
         })
         .firstOrFail()
       const mentor = await User.findOrFail(report.mentorId)
+      const mentorNames = {name: {name: `${mentor.firstName} ${mentor.lastName}`}}
       const writable = new stream.Duplex()
 
-      await generatePdfFile({ response: writable }, report, task, mentor)
+      await generatePdfFile(Task, { response: writable }, report, task, mentorNames)
       const readable = new stream.Readable()
       readable.pipe(writable)
 
