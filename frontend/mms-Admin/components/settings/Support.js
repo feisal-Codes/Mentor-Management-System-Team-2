@@ -4,9 +4,9 @@ import { CustomInput, CustomTextArea, Label } from "../formInputs/CustomInput";
 import { Icon } from "components/Icon/Icon";
 import { Button } from "components/Button";
 import styles from "../componentStyles/support.module.css";
-import { supportRequest } from "utils/http";
 import { validateInputs } from "utils/validateInputs";
 import SuccessMessage from "components/SuccessMessage";
+import { createSupportRequest } from "pages/api/support";
 
 function Support() {
   const [token, setToken] = useState("");
@@ -17,8 +17,8 @@ function Support() {
   });
   const [loading, setLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [file, setFile] = useState();
-  const [message, setMessage]= useState("")
+  const [file, setFile] = useState("");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("token"))) {
@@ -36,9 +36,6 @@ function Support() {
 
   const props = {
     onRemove: (file) => {
-      // const index = fileList.indexOf(file);
-      // const newFileList = fileList.slice();
-      // newFileList.splice(index, 1);
       setFile("");
     },
     beforeUpload: (file) => {
@@ -52,8 +49,6 @@ function Support() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-
 
     if (!supportData.title || !supportData.body) {
       return;
@@ -61,7 +56,8 @@ function Support() {
 
     const valid = validateInputs(supportData);
     if (valid) {
-      setMessage('')
+      setMessage("");
+      const formData = new FormData();
 
       try {
         if (file) {
@@ -70,27 +66,31 @@ function Support() {
         if (supportData.email) {
           formData.append("email", supportData.email);
         }
-        formData.append("body", supportData?.body);
+
         formData.append("title", supportData?.title);
 
+        formData.append("body", supportData?.body);
+
         setLoading(true);
-        const response = await supportRequest(token, formData);
+        const response = await createSupportRequest(formData);
 
         if (response.status === 200 || response.status === 201) {
-          setMessage('')
+          setMessage("");
           setLoading(false);
+          setSupportData({})
+          setFile("")
           setIsSuccess(true);
         }
 
         if (response.status === 401 || response.status === 400) {
           setLoading(false);
-          setMessage('Could not send Request')
+          setMessage("Could not send Request");
 
           throw response;
         }
       } catch (e) {
-        console.log(e)
-        setMessage('Could not send Request')
+        console.log(e);
+        setMessage("Could not send Request");
 
         setLoading(false);
       }
@@ -129,7 +129,7 @@ function Support() {
           placeholder="body"
           required
         />
-              <Label weight={"bold"} title={message} />
+        <Label weight={"bold"} title={message} />
 
         <Row className={styles.space_container}>
           <Upload {...props}>
