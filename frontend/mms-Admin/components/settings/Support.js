@@ -52,6 +52,8 @@ function Support() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+
 
     if (!supportData.title || !supportData.body) {
       return;
@@ -59,25 +61,25 @@ function Support() {
 
     const valid = validateInputs(supportData);
     if (valid) {
-      const formData = new FormData();
+      setMessage('')
 
       try {
         if (file) {
           formData.append("imageUrl", file);
         }
-        if (email) {
-          formData.append("email", email);
+        if (supportData.email) {
+          formData.append("email", supportData?.email);
         }
-        formData.append("body", body);
-        formData.append("title", title);
+        formData.append("body", supportData?.body);
+        formData.append("title", supportData?.title);
 
         setLoading(true);
-
-        const response = await supportRequest(token, supportData);
+        const response = await supportRequest(token, formData);
 
         if (response.status === 200 || response.status === 201) {
+          setMessage('')
           setLoading(false);
-           setIsSuccess(true);
+          setIsSuccess(true);
         }
 
         if (response.status === 401 || response.status === 400) {
@@ -87,6 +89,7 @@ function Support() {
           throw response;
         }
       } catch (e) {
+        console.log(e)
         setMessage('Could not send Request')
 
         setLoading(false);
@@ -103,7 +106,6 @@ function Support() {
           // value={supportData.name}
           name="name"
           placeholder="Name"
-          required
         />
         <CustomInput
           type="email"
@@ -111,7 +113,6 @@ function Support() {
           // value={supportData.email}
           name="email"
           placeholder="Email"
-          required
         />
         <CustomInput
           onChange={handleOnchange}

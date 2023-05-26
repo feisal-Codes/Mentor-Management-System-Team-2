@@ -135,7 +135,7 @@ export async function supportRequest(token, supportData) {
     );
 
     return response;
-  } catch (er) {
+  } catch (err) {
     if (typeof err.response.data.message !== "undefined") {
       let errObj = {
         status: err.response.status,
