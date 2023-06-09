@@ -17,6 +17,7 @@ function MentorManagerCertificates() {
   const { data, isLoading, isError } = useQuery(["mentor_manager_cert"], () =>
     fetchMentorCertificates(router.query.id),
   );
+  console.log(data)
 
   if (isLoading) return "loading...";
 
@@ -30,8 +31,9 @@ function MentorManagerCertificates() {
 
     
     <>
+    {data.data.length==0 && <p>Certificates would appear here if available</p>}
    
-      {data?.data.length > 0 && 
+      {data.data.length > 0 && 
         data?.data?.map((cert) => {
           return <Accordion key={cert?.certificate_id} header={cert.certification} icon footer={<image src="/assets/images/arrow_down.svg" alt="arrow down"/>} body={<CertificatePreview data={cert}  /> }/>;
         })} 
