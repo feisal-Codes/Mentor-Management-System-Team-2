@@ -72,7 +72,7 @@ const Template = ({ data }) => {
                     : "Date of Issue: "}
                 </Text>
                 <Text>
-                  Certificate ID:{" "}
+                  Certificate ID:
                   {data?.certificate_id ? " " + data.certificate_id : ""}
                 </Text>
               </View>
