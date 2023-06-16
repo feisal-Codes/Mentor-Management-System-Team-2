@@ -21,9 +21,7 @@ function MentorManagerMentors() {
 
   if (isError) return "An error occured";
 
-  if(typeof data === 'undefined'){
-    return <div>No data</div>
-  }
+  
   return (
     <>
       <div className="flex pt-4 pb-4 justify-between items-center">
@@ -37,7 +35,7 @@ function MentorManagerMentors() {
         </div>
       </div>
       <div>
-        {  data !== 'undefined' && data.map((item) => {
+        {data?.map((item) => {
           const { first_name, last_name, id } = item;
 
           return (
