@@ -58,8 +58,8 @@ function SuccessMessage({
           <div>
             <Image src={image} width="220" height="165" />;
           </div>
-          <div>
-            <CustomButton onClick={handleOk}>Done</CustomButton>
+          <div className="bg-mms-teal text-white rounded-lg mt-4">
+            <CustomButton  onClick={handleOk}>Done</CustomButton>
           </div>
         </div>
       </Modal>
