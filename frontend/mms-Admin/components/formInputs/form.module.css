@@ -39,8 +39,7 @@
 }
 
 .button {
-  background-color: #058b94;
-  border-color: none;
+  background-color: #058b94 !important;
   box-shadow: none;
   border: none;
   height: 47px;
